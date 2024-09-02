@@ -1,6 +1,6 @@
 # -*- coding: utf-8 -*-
 # @Time    : 2024/8/20 20:35
-# @Author  : sakuya
+# @Author  : Imens zhang
 # @File    : main.py
 # @Software: PyCharm
 
@@ -91,7 +91,7 @@ def convert_to_password(original_number):
 if __name__ == '__main__':
     original_string = input("请输入账户或者软件名\n")
     code = (convert_to_ascii(convert_to_pinyin(original_string)))
-    print("由上述信息生成的密码为；" + convert_to_password(code))
+    print("由上述信息生成的密码为: " + convert_to_password(code))
     os.system("pause")
 
 
