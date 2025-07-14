@@ -33,11 +33,13 @@ def show_help():
   --new-key           生成新密钥
   --key-name NAME     新密钥名称
   --key-length INT    新密钥长度(16-256)
+  --ant               生成随机密码
 
 交互模式支持:
 - 密钥管理
 - 带选项的密码生成
-- 配置设置""")
+- 配置设置
+- 确定性/随机密码选择""")
     sys.exit(0)
 
 def parse_arguments():
@@ -50,6 +52,7 @@ def parse_arguments():
     parser.add_argument('--new-key', action='store_true', help='Generate new key')
     parser.add_argument('--key-name', type=str, help='Name for new key')
     parser.add_argument('--key-length', type=int, default=32, help='Length for new key')
+    parser.add_argument('--ant', action='store_true', help='交互模式生成随机密码或快速模式生成确定性密码')
     return parser.parse_known_args()
 
 def convert_to_pinyin(target_text: str) -> str:
@@ -103,6 +106,7 @@ def generate_password_interactive():
         use_symbols = input("包含符号? (y/n) [y]: ").lower() != "n"
         use_numbers = input("包含数字? (y/n) [y]: ").lower() != "n"
         use_mixed_case = input("混合大小写? (y/n) [y]: ").lower() != "n"
+        deterministic = not args.ant if hasattr(args, 'ant') else input("生成确定性密码? (y/n) [y]: ").lower() != "n"
         
         # 处理输入
         processed_input = convert_to_pinyin(account) if use_pinyin else account
@@ -115,7 +119,7 @@ def generate_password_interactive():
             use_numbers=use_numbers,
             use_mixed_case=use_mixed_case
         )
-        password = generator.generate_password(processed_input)
+        password = generator.generate_password(processed_input, deterministic=deterministic)
         
         print(f"\n生成的密码: {password}")
     except Exception as e:
@@ -144,7 +148,8 @@ def handle_cli_mode(args):
     
     # 生成密码
     generator = PasswordGenerator(length=args.length)
-    password = generator.generate_password(args.account + key)
+    deterministic = not args.ant  # 快速模式默认随机，加--ant则确定
+    password = generator.generate_password(args.account + key, deterministic=deterministic)
     
     print(password)
 

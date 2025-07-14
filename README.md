@@ -38,6 +38,7 @@ python main.py [选项]
 可用选项：
 - `-V, --version`       显示版本信息
 - `-h, --help`          显示帮助信息
+- `--ant`               生成随机密码(不加此选项则生成确定性密码)
 - `-a, --account TEXT`  账户名称(支持ASCII或中文)
 - `-l, --length INT`    密码长度(8-64)
 - `-k, --key NAME`      指定使用的密钥

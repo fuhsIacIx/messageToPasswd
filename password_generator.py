@@ -23,18 +23,19 @@ class PasswordGenerator:
         self.use_numbers = use_numbers
         self.use_mixed_case = use_mixed_case
 
-    def generate_password(self, input_str: str, salt: Optional[str] = None) -> str:
+    def generate_password(self, input_str: str, salt: Optional[str] = None, deterministic: bool = True) -> str:
         """
-        Generate secure password from input string
+        从输入字符串生成安全密码
         
-        Args:
-            input_str: Input string to base password on
-            salt: Optional salt for additional entropy
+        参数:
+            input_str: 基础输入字符串
+            salt: 可选的salt增加熵值
+            deterministic: 是否生成确定性密码
             
-        Returns:
-            Generated password string
+        返回:
+            生成的密码字符串
         """
-        # Build character set based on options
+        # 根据选项构建字符集
         chars = string.ascii_lowercase
         if self.use_mixed_case:
             chars += string.ascii_uppercase
@@ -43,9 +44,13 @@ class PasswordGenerator:
         if self.use_symbols:
             chars += string.punctuation
 
-        # Generate secure hash with salt
+        # 生成安全哈希(带salt)
         if salt is None:
-            salt = secrets.token_hex(8)
+            if deterministic:
+                # 使用输入字符串的哈希作为确定性salt
+                salt = hashlib.sha256(input_str.encode()).hexdigest()[:16]
+            else:
+                salt = secrets.token_hex(8)
         salted_input = f"{input_str}:{salt}"
         
         # Use PBKDF2 for key derivation
