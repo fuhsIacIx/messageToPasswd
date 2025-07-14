@@ -1,0 +1,21 @@
+# Python cache
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Keys directory (keep structure but ignore contents)
+keys/*
+!keys/.gitkeep
+
+# IDE
+.vscode/
+.idea/
+
+# Environment
+env_py39/
+venv/
+
+# Build
+build/
+dist/
+*.egg-info/
