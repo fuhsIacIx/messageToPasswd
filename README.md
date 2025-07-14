@@ -15,6 +15,8 @@
 
 ```bash
 pip install -r requirements.txt
+# 如需打包为可执行文件
+pip install cx_Freeze
 ```
 
 ## 使用方法

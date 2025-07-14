@@ -3,8 +3,9 @@ from cx_Freeze import setup, Executable
 # 定义依赖项，这可能需要根据你的应用程序进行调整
 dependencies = [
     "pypinyin",
-    "os"
-
+    "argparse",
+    "hashlib",
+    "secrets"
 ]
 
 # 定义可执行的脚本
@@ -15,10 +16,10 @@ executables = [
 # 调用setup函数来配置打包过程
 setup(
     name = "PasswdMaker",
-    version="1.0",
-    author="sakuya",
+    version="2.0.0",
+    author="fuhsIacIx",
     author_email="sakuya_mei@outlook.com",
-    description="根据输入信息生成密码",
+    description="安全密码生成器，支持确定性密码和随机密码生成",
     options = {
         "build_exe": {
             "packages": dependencies,
